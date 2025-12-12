@@ -48,6 +48,7 @@ interface UI {
             <li key={item.id}>
               {item.text}
               <button type="button" onClick={() => handleDelete(item.id)}>Delete</button>
+              <button>Update</button>
             </li>
           ))}
         </ul>
