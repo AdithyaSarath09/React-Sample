@@ -1,29 +1,52 @@
 import React, { useState } from 'react';
 
-interface UI {
+interface AddItem {
   id: number;
-  text: string;
+  title: string;
 }
 
- const Task : React.FC=() => {
+const Task = () => {
   const [text, setText] = useState<string>('');
-  const [items, setItems] = useState<UI[]>([]);
+  const [items, setItems] = useState<AddItem[]>([]);
+  const [editId, setEditId] = useState<number | null>(null); // ⭐ Editing track
 
-  function handleSubmit(e: React.FormEvent<HTMLButtonElement>) {
-    e.preventDefault();   // prevent page reload
-
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    setText(e.target.value);
   }
 
-  function handleAdd() {
+  function handleAdd(e: React.FormEvent) {
+    e.preventDefault();
+
     if (!text.trim()) return;
 
-    const newItem: UI = {
+    // ⭐ If editing → update existing item
+    if (editId !== null) {
+      setItems(
+        items.map((item) =>
+          item.id === editId ? { ...item, title: text } : item
+        )
+      );
+      setEditId(null); // stop editing
+      setText('');
+      return;
+    }
+
+    // ⭐ Else → Add new item
+    const newItem: AddItem = {
       id: Date.now(),
-      text: text.trim(),
+      title: text,
     };
 
     setItems([...items, newItem]);
     setText('');
+  }
+
+  function handleUpdate(id: number) {
+    const itemToEdit = items.find((item) => item.id === id);
+    if (itemToEdit) {
+      setText(itemToEdit.title); // textbox-il show
+      setEditId(id); // ⭐ edit mode
+    }
   }
 
   function handleDelete(id: number) {
@@ -34,25 +57,29 @@ interface UI {
     <div>
       <h1>TO-DO TASK</h1>
 
-      <form onSubmit={(e) =>  {handleSubmit(e); handleAdd(e); }}>
+      <form onSubmit={handleAdd}>
         <input
           type="text"
-          placeholder="Enter todo item"
           value={text}
-          onChange={(e) => setText(e.target.value)}
+          placeholder="Enter item"
+          onChange={handleChange}
         />
-        <button type="submit">Add Todo</button>
-    </form>
-        <ul>
-          {items.map((item) => (
-            <li key={item.id}>
-              {item.text}
-              <button type="button" onClick={() => handleDelete(item.id)}>Delete</button>
-              <button>Update</button>
-            </li>
-          ))}
-        </ul>
-      
+
+        {/* ⭐ Button dynamically change cheyyum */}
+        <button type="submit">
+          {editId !== null ? "Update" : "Add"}
+        </button>
+      </form>
+
+      <ul>
+        {items.map((item) => (
+          <li key={item.id}>
+            {item.title}
+            <button onClick={() => handleDelete(item.id)}>Delete</button>
+            <button onClick={() => handleUpdate(item.id)}>Update</button>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
