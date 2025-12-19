@@ -12,7 +12,7 @@ const TodoPage = () => {
     function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
         setText(e.target.value);//step 2 :(Usestatil ulla values)input ulla current value kittan ulla function(e)-Controlled component
     }
-    function handleAdd(e: React.ChangeEvent<HTMLInputElement>) {
+    function handleAdd(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
 
         if (!text.trim()) return;
@@ -45,9 +45,9 @@ const TodoPage = () => {
             <div>
                 <h1>Todo List</h1>
                 <form onSubmit={handleAdd}>
-                    <input type="Text" placeholder='Enter todo item ' onChange={handleChange} value ={text}/> 
+                    <input type="text" placeholder='Enter todo item ' onChange={handleChange} value ={text}/> 
                             {/* step 1 */}
-                    <button type="Submit" onClick={handleAdd}>Add Todo</button>
+                    <button type="submit">Add Todo</button>
                 </form> 
 
                 {todos.length === 0 && <p>No todo items</p>}

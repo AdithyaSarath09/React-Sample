@@ -4,7 +4,7 @@ import Homepage from './pages/homepage'
 import About from './pages/about'
 import Count from './pages/count'
 import TodoPage from './pages/TodoPage'
-import Calculator from './pages/calculator'
+import Calculator from './pages/Calculator'
 import Task from './pages/Task'
 
 function App() {
@@ -14,7 +14,7 @@ function App() {
       
       <BrowserRouter>
       <Routes>
-        <Route path ='/home'element={<Homepage />} />
+        <Route path ='/'element={<Homepage />} />
         <Route path ='/About' element={<About />} />
         <Route path='/Count' element={<Count />} />
         <Route path ='/TodoPage' element={<TodoPage />}/>

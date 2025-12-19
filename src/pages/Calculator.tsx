@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import  { useState } from 'react'
 
 
 const calculator = () => {
@@ -6,7 +6,7 @@ const[text,setText] = useState<string>('');
 
 
 const handleClick = (value: string) =>{
-    setText((pre)=>pre + value);
+    setText((pre: any)=>pre + value);
 }
 
 function HandleReset(){
